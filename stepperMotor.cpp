@@ -25,7 +25,7 @@ public:
 		gpioSetMode(dirPin, PI_OUTPUT);
 	}
 	
-	StepperMotor(int sPin, int dirPin, int d) : stepPin(sPin), dirPin(dirPin), msPins(), changePins(false), deg(d),  speed(), dir(){
+	StepperMotor(int sPin, int dirPin, double d) : stepPin(sPin), dirPin(dirPin), msPins(), changePins(false), deg(d),  speed(), dir(){
 		gpioSetMode(sPin, PI_OUTPUT);
 		gpioSetMode(dirPin, PI_OUTPUT);
 	}

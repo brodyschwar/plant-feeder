@@ -7,11 +7,11 @@ LDFLAGS = -lpigpio -lrt
 all: main.o stepperMotor.o
 	$(CC) $(CFLAGS) $(LDFLAGS) -o main main.o stepperMotor.o
 
-main.o: main.cpp stepperMotor.h
-	$(CC) $(CFLAGS) $(LDFLAGS) -c main.cpp stepperMotor.h
+main.o: main.cpp stepperMotor.o
+	$(CC) $(CFLAGS) $(LDFLAGS) -c main.cpp stepperMotor.cpp
 
-stepperMotor.o: stepperMotor.h
-	$(CC) $(CFLAGS) $(LDFLAGS) -c stepperMotor.h
+stepperMotor.o: stepperMotor.cpp stepperMotor.h
+	$(CC) $(CFLAGS) $(LDFLAGS) -c stepperMotor.cpp
 
 .PHONY: clean
 

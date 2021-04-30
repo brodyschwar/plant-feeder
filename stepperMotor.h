@@ -3,17 +3,29 @@
 
 
 class StepperMotor {
-public:
 
+private:
+	int stepPin;
+	int dirPin;
+	int msPins[3] = {0,0,0};
+	bool changePins = false;
+	double deg = 1.8;
+	double speed = 1.0;
+	int dir = 1;
+
+public:
+	
+	StepperMotor();
+	
 	//REQUIRES: sPin and dirPin be valid GPIO pins on Raspberry Pi
 	//EFFECTS: Creates and Initializes a stepper motor with the desired
 	//step pin and direction pin.
-	StepperMotor::StepperMotor(int sPin, int dirPin);
+	StepperMotor(int sPin, int dirPin);
 	
 	//REQUIRES: sPin and dirPin be valid GPIO pins on Raspberry Pi, and d > 0
 	//EFFECTS: Creates and Initializes a stepper motor with the desired
 	//step pin and direction pin. Specifys the motor degree angle to be d.
-	StepperMotor::StepperMotor(int sPin, int dirPin, double d);
+	StepperMotor(int sPin, int dirPin, double d);
 	
 	//EFFECTS: Returns the set speed of the motor
 	double StepperMotor::getSpeed() const;

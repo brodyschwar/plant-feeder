@@ -19,7 +19,8 @@ int main(int argc, char ** argv){
 	int speed = 1;
 	int dir = 1;
 	gpioInitialise();
-	StepperMotor motor = StepperMotor(sPin, dPin);
+	
+	StepperMotor motor(sPin, dPin);
 	motor.setSpeed(speed);
 	motor.setDir(dir);
 	motor.turn(2);

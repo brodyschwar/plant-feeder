@@ -14,30 +14,23 @@ using namespace std::chrono; // nanoseconds, system_clock, seconds
 
 int main(int argc, char ** argv){
 	cout << "start" << endl;
-	/*int sPin = 21;
-	int dPin = 20;
-	int speed = 1;
+	int pins[6] = {21, 20, 26, 0, 0, 0};
+	int speed = 2;
 	int dir = 1;
 	gpioInitialise();
 	
-	StepperMotor motor(sPin, dPin);
+	StepperMotor motor(pins);
 	motor.setSpeed(speed);
 	cout << "Starting first Turn!" << endl;
 	motor.setDir(dir);
-	motor.turn(1.0);
+	motor.holdOn();
+	motor.turn(4);
 	sleep_for(seconds(2));
 	motor.changeDir();
+	motor.setSpeed(8);
 	cout << "Starting Second Turn!" << endl;
-	motor.turn(1.0);
-	gpioTerminate();*/
-	
-	gpioInitialise();
-	gpioSetMode(21, PI_OUTPUT);
-	gpioSetMode(20, PI_OUTPUT);
-	gpioWrite(20, 1);
-	gpioWrite(21, 1);
-	sleep_for(seconds(2));
-	gpioWrite(21, 0);
+	motor.turn(10.0);
+	motor.holdOff();
 	gpioTerminate();
 	cout << "end" << endl;
 }

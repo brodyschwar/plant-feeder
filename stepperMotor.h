@@ -5,25 +5,34 @@
 class StepperMotor {
 
 private:
-	int stepPin;
-	int dirPin;
-	int msPins[3] = {0,0,0};
-	bool changePins = false;
+	static const int numPins = 6;
+	int pins[numPins]; //Step, Dir, Sleep, ms1, ms2, ms3
 	int stepsPerRot = 200;
 	double speed = 1.0;
 	int dir = 1;
+	bool hold = false;
+	
+	//EFFECTS: Returns true if sleep pin is registered and turns sleep
+	//pin to high. Returns false is sleep pin is not registered
+	bool awaken() const;
+	
+	//EFFECTS: Returns true if sleep pin is registered and turns sleep
+	//pin to low. Returns false is sleep pin is not registered
+	bool bed() const;
+	
+	void setPinModes() const;
 
 public:
 	
 	//REQUIRES: sPin and dirPin be valid GPIO pins on Raspberry Pi
 	//EFFECTS: Creates and Initializes a stepper motor with the desired
 	//step pin and direction pin.
-	StepperMotor(int sPin, int dirPin);
+	StepperMotor(int* pins);
 	
 	//REQUIRES: sPin and dirPin be valid GPIO pins on Raspberry Pi, and d > 0
 	//EFFECTS: Creates and Initializes a stepper motor with the desired
 	//step pin and direction pin. Specifys the motor degree angle to be d.
-	StepperMotor(int sPin, int dirPin, double d);
+	StepperMotor(int* pins, double d);
 	
 	//EFFECTS: Returns the set speed of the motor
 	double getSpeed() const;
@@ -44,6 +53,12 @@ public:
 	
 	//EFFECTS: Turns the motor rot number of rotations
 	void turn(double rot) const;
+	
+	void holdOn();
+	
+	void holdOff();
+	
 };
+
 
 #endif

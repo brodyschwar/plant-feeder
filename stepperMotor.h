@@ -58,7 +58,9 @@ public:
 	
 	void holdOff();
 	
+	void runUntil(bool& go) const;
+	
+	//void turnWith(double rot, StepperMotor *m2) const;
 };
-
 
 #endif

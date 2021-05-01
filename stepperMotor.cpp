@@ -2,12 +2,9 @@
 #include <pigpio.h>
 #include <chrono>
 #include <thread>
-#include <iostream>
 
 #include "stepperMotor.h"
 
-using std::cout;
-using std::endl;
 
 using namespace std::this_thread; // sleep_for, sleep_until
 using namespace std::chrono; // nanoseconds, system_clock, seconds
@@ -53,8 +50,6 @@ void StepperMotor::changeDir() {
 void StepperMotor::turn(double rot) const {
 	int steps = rot*stepsPerRot;
 	int delay = (1.0/(stepsPerRot*speed))*1000000000;
-	cout << "Steps: " << steps << endl;
-	cout << "Delay: " << delay << endl;
 	if(!hold) awaken();
 	gpioWrite(pins[1], dir);
 	for (int i = 0; i < steps; ++i) {
@@ -97,3 +92,37 @@ void StepperMotor::setPinModes() const {
 		if(pins[i] != 0) gpioSetMode(pins[i], PI_OUTPUT);
 	}
 }
+
+/*void StepperMotor::turnWith(double rot, StepperMotor *m2) const {
+	if(stepsPerRot != m2->stepsPerRot) throw -1;
+	else {
+		int steps = rot*stepsPerRot;
+		int delay = (1.0/(stepsPerRot*speed))*1000000000;
+		bool holdBoth = hold && m2->hold;
+		awaken();
+		m2->awaken();
+		gpioWrite(pins[1], dir);
+		for (int i = 0; i < steps; ++i) {
+		gpioWrite(pins[0], 1);
+		sleep_for(nanoseconds(delay));
+		gpioWrite(pins[0],0);
+		sleep_for(nanoseconds(delay));
+	}
+		if(!hold) bed();
+	}
+}*/
+
+void StepperMotor::runUntil(bool& go) const {
+	int delay = (1.0/(stepsPerRot*speed))*1000000000;
+	gpioWrite(pins[1], dir);
+	awaken();
+	while(go) {
+		gpioWrite(pins[0], 1);
+		sleep_for(nanoseconds(delay));
+		gpioWrite(pins[0],0);
+		sleep_for(nanoseconds(delay));
+	}
+	if (!hold) bed();
+}
+
+
